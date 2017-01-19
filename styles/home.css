@@ -1,0 +1,69 @@
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    box-sizing: border-box;
+    margin: 0;
+    padding-top: 50px;
+    width: 100%;
+    height: 100%;
+    font-family: 'Fira Sans Condensed', sans-serif;
+    font-size: 1em;
+    background: linear-gradient( rgba(30, 31, 51, 0.75), rgba(30, 31, 51, 0.75)), url("../media/league-of-legends-background.jpg") no-repeat center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input, select, button {
+    font-family: inherit;
+    font-size: 1em;
+}
+
+#searchContainer {
+    width: 600px;
+    background: white;
+    border-radius: 20px;
+}
+
+#searchContainer.expanded  {
+    width: 80%;
+    align-self: flex-start;
+}
+
+#searchForm {
+    width: 100%;
+    height: 50px;
+}
+
+#summonerSearch {
+    height: 100%;
+    border: none;
+    outline: none;
+    padding: 11px 20px;
+    box-sizing: border-box;
+    margin-left: -4px;
+}
+
+
+#regionSelect {
+    height: 100%;
+    padding-left: 10px;
+    border: none;
+    outline: none;
+    background: none;
+}
+
+#searchButton {
+    height: 100%;
+    padding-right: 20px;
+    border:none;
+    outline: none;
+    background: none;
+    box-sizing: border-box;
+    float: right;
+}

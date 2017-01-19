@@ -2,9 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles/home.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed" rel="stylesheet">
     <title>Summoner Lookup</title>
 </head>
 <body>
 
+
+<div id="searchContainer">
+    <form id="searchForm">
+        <select id="regionSelect" name="region">
+            <option value="EU">EU</option>
+            <option value="NA">NA</option>
+            <option value="KR">KR</option>
+        </select>
+        <input type="text" id="summonerSearch" name="summonerName" placeholder="Summoner name...">
+        <button class="fa fa-search" id="searchButton"></button>
+    </form>
+</div>
+
+
+
+
+<script src="javascript/home.js"></script>
 </body>
 </html>
