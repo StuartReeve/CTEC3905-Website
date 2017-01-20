@@ -17,6 +17,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 input, select, button {
@@ -28,11 +29,14 @@ input, select, button {
     width: 600px;
     background: white;
     border-radius: 20px;
+    transition: all 0.8s linear;
 }
 
 #searchContainer.expanded  {
     width: 80%;
-    align-self: flex-start;
+    transform: translate(0, -50vh);
+    margin-top: 50px;
+    border-radius: 20px 20px 0 0;
 }
 
 #searchForm {
@@ -41,6 +45,7 @@ input, select, button {
 }
 
 #summonerSearch {
+    width: calc(100% - 100px);
     height: 100%;
     border: none;
     outline: none;
@@ -51,14 +56,17 @@ input, select, button {
 
 
 #regionSelect {
+    width: 50px;
     height: 100%;
     padding-left: 10px;
+    box-sizing: border-box;
     border: none;
     outline: none;
     background: none;
 }
 
 #searchButton {
+    width: 50px;
     height: 100%;
     padding-right: 20px;
     border:none;
