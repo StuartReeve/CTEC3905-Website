@@ -24,6 +24,7 @@ input, select, button {
     font-size: 1em;
 }
 
+
 #searchContainer {
     width: 600px;
     background: white;
@@ -76,11 +77,39 @@ input, select, button {
 #summonerContainer {
     width: 80%;
     height: 800px;
-    background-color: red;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #1e1f33;
     transition: all 0.4s;
     transition-delay: 0.4s;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    align-content: flex-start;
+    flex-flow: row wrap;
 }
 
 #summonerContainer.hidden {
-    height: 0px;
+    height: 0;
+    padding: 0;
+}
+
+.game {
+    display: block;
+    width: 18%;
+    min-width: 250px;
+    height: 300px;
+    margin: 5px;
+    background: #72738D ;
+    box-sizing: border-box;
+}
+
+.won {
+    background: url("http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Ekko_0.jpg") center top;
+    border-bottom: 5px solid green;
+}
+
+.loss {
+    background: url("http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Ekko_3.jpg") center top;
+    border-bottom: 5px solid red;
 }
