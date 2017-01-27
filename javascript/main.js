@@ -10,6 +10,9 @@
         var animate = animation();
         animate.animateSearch();
 
+        var lookupSummoner = summonerSearch();
+        lookupSummoner.lookupSummoner();
+
         event.preventDefault();
     })
 

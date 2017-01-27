@@ -56,7 +56,6 @@ input, select, button {
 #regionSelect {
     width: 50px;
     height: 100%;
-    padding-left: 10px;
     box-sizing: border-box;
     border: none;
     outline: none;
