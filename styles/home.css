@@ -93,22 +93,16 @@ input, select, button {
     padding: 0;
 }
 
-.game {
+.match {
     display: block;
     width: 18%;
     min-width: 250px;
-    height: 300px;
+    height: 250px;
     margin: 5px;
     background: #72738D ;
     box-sizing: border-box;
 }
 
-.won {
-    background: url("http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Ekko_0.jpg") center top;
-    border-bottom: 5px solid green;
-}
-
-.loss {
-    background: url("http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Ekko_3.jpg") center top;
-    border-bottom: 5px solid red;
+.matchChampion {
+    border-radius: 50%;
 }
