@@ -52,7 +52,7 @@ var matchlistBuilder = (function(summonerID, region) {
 
         riotHandler.queryRiotApi(championImageEndpoint, function(data) {
             console.log(data);
-            var championName = date["name"];
+            var championName = data["name"];
             var championImg = data["image"]["full"];
             var imgUrl = "https://ddragon.leagueoflegends.com/cdn/7.1.1/img/champion/" + championImg;
             img.src = imgUrl;
