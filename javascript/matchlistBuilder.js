@@ -43,8 +43,6 @@ var matchlistBuilder = (function(summonerID, region) {
         matchDiv.appendChild(img);
 
         return matchDiv;
-
-
     }
 
 
@@ -56,8 +54,6 @@ var matchlistBuilder = (function(summonerID, region) {
             console.log(data);
             var championImg = data["image"]["full"];
             var imgUrl = "https://ddragon.leagueoflegends.com/cdn/7.1.1/img/champion/" + championImg;
-            img.style.width = "120px";
-            img.style.height = "120px";
             img.src = imgUrl;
 
         } );
