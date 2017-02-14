@@ -1,12 +1,12 @@
-var matchlistBuilder = (function(summonerID, region) {
+var matchlistBuilder = (function() {
 
     //global privates
     var summonerContainer = document.getElementById("summonerContainer");
     var riotHandler = riotApiHandler();
-    var summonerMatchlist;
-    var currentMatchIndex;
+    var region;
 
-    function buildMatchlist() {
+    function buildMatchlist(summonerID, searchedRegion) {
+        region = searchedRegion;
         var matchlistEndpoint = buildMatchlistEndpoint(summonerID, region);
         console.log(matchlistEndpoint);
         riotHandler.queryRiotApi(matchlistEndpoint, matchlistCallback);
@@ -16,12 +16,9 @@ var matchlistBuilder = (function(summonerID, region) {
 
     function matchlistCallback(data) {
         console.log(data);
-        summonerMatchlist = data;
         for(i = 0; i < 10; i++) {
             displayMatch(data["matches"][i]);
         }
-        //storing current match index for later paginaton stuff maybe?
-        currentMatchIndex = 10;
     }
 
     function displayMatch(match) {
@@ -54,15 +51,15 @@ var matchlistBuilder = (function(summonerID, region) {
             console.log(data);
             var championName = data["name"];
             var championImg = data["image"]["full"];
-            var imgUrl = "https://ddragon.leagueoflegends.com/cdn/7.1.1/img/champion/" + championImg;
-            img.src = imgUrl;
+            img.src = "https://ddragon.leagueoflegends.com/cdn/7.1.1/img/champion/" + championImg;
             img.alt = "Champion played - " + championName;
 
         } );
     }
 
     function buildMatchlistEndpoint(summonerID, region) {
-        return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.2/matchlist/by-summoner/' + summonerID ;
+        var indexInfo = encodeURIComponent("?beginIndex=0&endIndex=10");
+        return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.2/matchlist/by-summoner/' + summonerID + indexInfo;
     }
 
     function buildChampionImageEndpoint(championID, region) {

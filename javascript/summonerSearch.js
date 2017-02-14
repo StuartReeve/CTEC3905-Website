@@ -31,8 +31,8 @@ var summonerSearch = (function() {
         var summonerId = data[summonerNameNoSpaces].id;
         console.log("Summoner ID = " + summonerId);
 
-        var matchlist = matchlistBuilder(summonerId, region);
-        matchlist.buildMatchlist();
+        var matchlist = matchlistBuilder();
+        matchlist.buildMatchlist(summonerId, region);
     }
 
 

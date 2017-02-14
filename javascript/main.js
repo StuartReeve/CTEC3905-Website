@@ -2,7 +2,6 @@
 
     var searchForm = document.getElementById("searchForm");
 
-
     //Perform search when submitted
     searchForm.addEventListener("submit", function(event) {
 
@@ -15,6 +14,4 @@
 
         event.preventDefault();
     })
-
-
 }());
