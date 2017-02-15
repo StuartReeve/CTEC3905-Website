@@ -36,14 +36,14 @@ var matchlistBuilder = (function() {
 
         var img = document.createElement("img");
         img.classList.add("matchChampion");
-        getChampionImage(img, championID);
+        addChampionImage(img, championID);
         matchDiv.appendChild(img);
 
         return matchDiv;
     }
 
 
-    function getChampionImage(img, championID) {
+    function addChampionImage(img, championID) {
         var championImageEndpoint = buildChampionImageEndpoint(championID, region);
         console.log(championImageEndpoint);
 
