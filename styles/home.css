@@ -96,10 +96,15 @@ input, select, button {
 
 .match {
     display: block;
+    height: 155px;
     width: 100%;
-    padding: 10px 5px;
+    padding: 15px 5px;
     border-bottom: 1px solid white;
     box-sizing: border-box;
+}
+
+.match:hover {
+    background-color: #7E93A8;
 }
 
 .match:last-child {
@@ -107,16 +112,41 @@ input, select, button {
 }
 
 .matchChampion {
+    height: 100%;
+    width: 50%;
+    float: left;
+}
+
+
+.matchInfo {
+    height: 100%;
+    width: 50%;
+    float: left;
+    box-sizing: border-box;
+    padding: 15px;
+}
+
+.championImage {
     display: block;
+    margin: 0 auto;
     width: 120px;
     height: 120px;
     border-radius: 50%;
     border: solid 2px white;
 }
 
+.matchText {
+    text-align: center;
+    color: white;
+}
+
+.gameResult {
+    color: greenyellow;
+}
 
 
 /* Before the big mobile first redo on 14-02-17*/
+/* Will remove these comments when desktop is done */
 /*
 html {
     height: 100%;

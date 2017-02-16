@@ -34,18 +34,26 @@ var matchlistBuilder = (function() {
         var matchDiv = document.createElement("div");
         matchDiv.classList.add("match");
 
-        var img = document.createElement("img");
-        img.classList.add("matchChampion");
-        addChampionImage(img, championID);
-        matchDiv.appendChild(img);
+
+        addChampionImage(matchDiv, championID);
+        addMatchText(matchDiv);
+
 
         return matchDiv;
     }
 
 
-    function addChampionImage(img, championID) {
+    function addChampionImage(matchDiv, championID) {
+        var matchChampion = document.createElement("div");
+        matchChampion.classList.add("matchChampion");
+
+        var img = document.createElement("img");
+        img.classList.add("championImage");
+        matchChampion.appendChild(img);
+
         var championImageEndpoint = buildChampionImageEndpoint(championID, region);
         console.log(championImageEndpoint);
+
 
         riotHandler.queryRiotApi(championImageEndpoint, function(data) {
             console.log(data);
@@ -55,6 +63,31 @@ var matchlistBuilder = (function() {
             img.alt = "Champion played - " + championName;
 
         } );
+
+        matchDiv.appendChild(matchChampion);
+    }
+
+    function addMatchText(matchDiv) {
+        var matchTextDiv = document.createElement("div");
+        matchTextDiv.classList.add("matchInfo");
+
+        var gameResultPara = document.createElement("p");
+        gameResultPara.classList.add("matchText", "gameResult");
+        var resultTextNode = document.createTextNode("Victory");
+        gameResultPara.appendChild(resultTextNode);
+        matchTextDiv.appendChild(gameResultPara);
+
+        var kdaPara = document.createElement("p");
+        kdaPara.classList.add("matchText", "gameKda");
+        var kdaTextNode = document.createTextNode("KDA: 17/0/12");
+        kdaPara.appendChild(kdaTextNode);
+        matchTextDiv.appendChild(kdaPara);
+
+
+        matchDiv.appendChild(matchTextDiv);
+
+
+
     }
 
     function buildMatchlistEndpoint(summonerID, region) {
