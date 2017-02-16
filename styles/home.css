@@ -75,7 +75,7 @@ input, select, button {
 
 #summonerContainer {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 50px);
     padding: 10px;
     box-sizing: border-box;
     opacity: .8;
@@ -101,6 +101,7 @@ input, select, button {
     padding: 15px 5px;
     border-bottom: 1px solid white;
     box-sizing: border-box;
+    transition: background-color 0.3s linear;
 }
 
 .match:hover {
@@ -144,14 +145,18 @@ input, select, button {
     color: greenyellow;
 }
 
-@media (min-width: 700px) {
+@media screen and (min-width: 700px) {
     .match {
         width: 50%;
     }
 
+    .match:nth-last-child(-n+2) {
+        border-bottom: 0;
+    }
+
 }
 
-@media(min-width: 1200px) {
+@media screen and (min-width: 1200px) {
 
     #searchContainer {
         width: 60%;
@@ -165,7 +170,7 @@ input, select, button {
     #summonerContainer {
         width: 80%;
         height: 80%;
-        padding-top: 70px;
+        padding-top: 6%;
         border: 2px solid white;
         border-top: 0;
         border-radius: 0 0 20px 20px;
