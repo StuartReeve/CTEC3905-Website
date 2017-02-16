@@ -144,123 +144,44 @@ input, select, button {
     color: greenyellow;
 }
 
+@media (min-width: 700px) {
+    .match {
+        width: 50%;
+    }
 
-/* Before the big mobile first redo on 14-02-17*/
-/* Will remove these comments when desktop is done */
-/*
-html {
-    height: 100%;
-    margin: 0;
-    padding: 0;
 }
 
+@media(min-width: 1200px) {
 
-body {
-    box-sizing: border-box;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    font-family: 'Fira Sans Condensed', sans-serif;
-    font-size: 1em;
-    background: linear-gradient( rgba(30, 31, 51, 0.75), rgba(30, 31, 51, 0.75)), url("../media/league-of-legends-background.jpg") no-repeat center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    #searchContainer {
+        width: 60%;
+    }
+
+    #searchContainer.expanded {
+        width: 80%;
+        border-radius: 20px 20px 0 0;
+    }
+
+    #summonerContainer {
+        width: 80%;
+        height: 80%;
+        padding-top: 70px;
+        border: 2px solid white;
+        border-top: 0;
+        border-radius: 0 0 20px 20px;
+    }
+
+    #summonerContainer.hidden {
+        height: 0;
+        border: 0;
+        padding: 0;
+    }
+
+    .match {
+        width: 33%;
+    }
+
+    .match:nth-last-child(-n+3) {
+        border-bottom: 0;
+    }
 }
-
-input, select, button {
-    font-family: inherit;
-    font-size: 1em;
-}
-
-
-#searchContainer {
-    width: 600px;
-    background: white;
-    border-radius: 20px;
-    transition: all 0.4s linear;
-}
-
-#searchContainer.expanded  {
-    width: 80%;
-    border-radius: 20px 20px 0 0;
-}
-
-#searchForm {
-    width: 100%;
-    height: 50px;
-}
-
-#summonerSearch {
-    width: calc(100% - 100px);
-    height: 100%;
-    border: none;
-    outline: none;
-    padding: 11px 20px;
-    box-sizing: border-box;
-    margin-left: -4px;
-}
-
-
-#regionSelect {
-    width: 50px;
-    height: 100%;
-    box-sizing: border-box;
-    border: none;
-    outline: none;
-    background: none;
-}
-
-#searchButton {
-    width: 50px;
-    height: 100%;
-    padding-right: 20px;
-    border:none;
-    outline: none;
-    background: none;
-    box-sizing: border-box;
-    float: right;
-}
-
-#summonerContainer {
-    width: 80%;
-    height: 800px;
-    padding: 10px;
-    box-sizing: border-box;
-    background-color: #1e1f33;
-    transition: all 0.4s;
-    transition-delay: 0.4s;
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    align-content: flex-start;
-    flex-flow: row wrap;
-}
-
-#summonerContainer.hidden {
-    height: 0;
-    padding: 0;
-}
-
-.match {
-    display: block;
-    width: 18%;
-    min-width: 250px;
-    height: 250px;
-    margin: 5px;
-    background: #72738D ;
-    box-sizing: border-box;
-}
-
-.matchChampion {
-    display: block;
-    width: 120px;
-    height: 120px;
-    margin: 0 auto;
-    border-radius: 50%;
-    border: solid 2px white;
-}
-
-*/
-

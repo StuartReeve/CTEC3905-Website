@@ -8,7 +8,6 @@ var matchlistBuilder = (function() {
     function buildMatchlist(summonerID, searchedRegion) {
         region = searchedRegion;
         var matchlistEndpoint = buildMatchlistEndpoint(summonerID, region);
-        console.log(matchlistEndpoint);
         riotHandler.queryRiotApi(matchlistEndpoint, matchlistCallback);
     }
 
@@ -16,7 +15,7 @@ var matchlistBuilder = (function() {
 
     function matchlistCallback(data) {
         console.log(data);
-        for(i = 0; i < 10; i++) {
+        for(i = 0; i < data["matches"].length; i++) {
             displayMatch(data["matches"][i]);
         }
     }
@@ -91,7 +90,8 @@ var matchlistBuilder = (function() {
     }
 
     function buildMatchlistEndpoint(summonerID, region) {
-        var indexInfo = encodeURIComponent("?beginIndex=0&endIndex=10");
+        var indexInfo = encodeURIComponent("?beginIndex=0&endIndex=12");
+        console.log('https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.2/matchlist/by-summoner/' + summonerID + indexInfo    );
         return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.2/matchlist/by-summoner/' + summonerID + indexInfo;
     }
 
