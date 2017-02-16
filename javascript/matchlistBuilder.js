@@ -3,9 +3,12 @@ var matchlistBuilder = (function() {
     //global privates
     var summonerContainer = document.getElementById("summonerContainer");
     var riotHandler = riotApiHandler();
+    var summonerID;
     var region;
 
-    function buildMatchlist(summonerID, searchedRegion) {
+
+    function buildMatchlist(summID, searchedRegion) {
+        summonerID = summID;
         region = searchedRegion;
         var matchlistEndpoint = buildMatchlistEndpoint(summonerID, region);
         riotHandler.queryRiotApi(matchlistEndpoint, matchlistCallback);
@@ -21,21 +24,25 @@ var matchlistBuilder = (function() {
     }
 
     function displayMatch(match) {
-        var matchID = match["matchID"];
         var championID = match["champion"];
+        var matchID = match["matchId"];
 
         //new div to insert
-        var matchDiv = createMatchDiv(championID);
+        var matchDiv = createMatchDiv(matchID, championID);
         summonerContainer.appendChild(matchDiv);
     }
 
-    function createMatchDiv(championID) {
+    function createMatchDiv(matchID, championID) {
         var matchDiv = document.createElement("div");
         matchDiv.classList.add("match");
 
 
         addChampionImage(matchDiv, championID);
-        addMatchText(matchDiv);
+        addMatchText(matchDiv, matchID);
+        matchDiv.addEventListener("click", function() {
+            alert("Match ID = " + matchID);
+
+        });
 
 
         return matchDiv;
@@ -61,43 +68,58 @@ var matchlistBuilder = (function() {
             img.src = "https://ddragon.leagueoflegends.com/cdn/7.1.1/img/champion/" + championImg;
             img.alt = "Champion played - " + championName;
 
-        } );
+        });
 
         matchDiv.appendChild(matchChampion);
     }
 
-    function addMatchText(matchDiv) {
+    function addMatchText(matchDiv, matchID) {
         var matchTextDiv = document.createElement("div");
         matchTextDiv.classList.add("matchInfo");
 
         var gameResultPara = document.createElement("p");
         gameResultPara.classList.add("matchText", "gameResult");
-        var resultTextNode = document.createTextNode("Victory");
-        gameResultPara.appendChild(resultTextNode);
-        matchTextDiv.appendChild(gameResultPara);
+
 
         var kdaPara = document.createElement("p");
         kdaPara.classList.add("matchText", "gameKda");
-        var kdaTextNode = document.createTextNode("KDA: 17/0/12");
-        kdaPara.appendChild(kdaTextNode);
-        matchTextDiv.appendChild(kdaPara);
 
+
+        var matchEndpoint = buildMatchEndpoint(matchID, region);
+        console.log(matchEndpoint);
+
+        riotHandler.queryRiotApi(matchEndpoint, function(data) {
+            console.log(data);
+            var result = data["participants"][0]["stats"]["winner"] === true ? "Victory" : "Defeat";
+
+            //Get the game result
+            var resultTextNode = document.createTextNode(result);
+            gameResultPara.appendChild(resultTextNode);
+            matchTextDiv.appendChild(gameResultPara);
+
+            //Get KDA
+            var kdaTextNode = document.createTextNode("kda");
+            kdaPara.appendChild(kdaTextNode);
+            matchTextDiv.appendChild(kdaPara);
+        });
 
         matchDiv.appendChild(matchTextDiv);
-
-
 
     }
 
     function buildMatchlistEndpoint(summonerID, region) {
-        var indexInfo = encodeURIComponent("?beginIndex=0&endIndex=12");
-        console.log('https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.2/matchlist/by-summoner/' + summonerID + indexInfo    );
+        var indexInfo = encodeURIComponent("?beginIndex=0&endIndex=4");
         return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.2/matchlist/by-summoner/' + summonerID + indexInfo;
     }
 
     function buildChampionImageEndpoint(championID, region) {
         var champData = encodeURIComponent("?champData=image");
         return 'https://global.api.pvp.net/api/lol/static-data/' + region + '/v1.2/champion/' + championID + champData;
+    }
+
+    function buildMatchEndpoint(matchID, region) {
+        return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.2/match/' + matchID;
+
     }
 
     return {
