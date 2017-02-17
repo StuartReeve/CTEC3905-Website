@@ -141,8 +141,12 @@ input, select, button {
     color: white;
 }
 
-.gameResult {
-    color: greenyellow;
+.victory {
+    color: #adff2f;
+}
+
+.defeat {
+    color: #c50000;
 }
 
 @media screen and (min-width: 700px) {
@@ -157,6 +161,10 @@ input, select, button {
 }
 
 @media screen and (min-width: 1200px) {
+
+    body {
+        background-size: auto;
+    }
 
     #searchContainer {
         width: 60%;
@@ -186,7 +194,9 @@ input, select, button {
         width: 33%;
     }
 
-    .match:nth-last-child(-n+3) {
-        border-bottom: 0;
+    .match:nth-last-child(2) {
+        border-bottom: 1px solid white;
     }
+
+
 }

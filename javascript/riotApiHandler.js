@@ -13,7 +13,7 @@ var riotApiHandler = (function() {
                 data: {},
                 success: callback,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    console.log("Failed to get data from riot API.");
+                    console.log("Failed to get data from riot API. " + errorThrown.toString());
                     //return false;
                 }
 

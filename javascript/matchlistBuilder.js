@@ -11,43 +11,80 @@ var matchlistBuilder = (function() {
         summonerID = summID;
         region = searchedRegion;
         var matchlistEndpoint = buildMatchlistEndpoint(summonerID, region);
-        riotHandler.queryRiotApi(matchlistEndpoint, matchlistCallback);
+        riotHandler.queryRiotApi(matchlistEndpoint, function(data) {
+            console.log(data);
+            var gamesArray = data["games"];
+
+            for(i=0; i < gamesArray.length; i++) {
+                createMatch(gamesArray[i]);
+            }
+
+        });
     }
 
-
-
-    function matchlistCallback(data) {
-        console.log(data);
-        for(i = 0; i < data["matches"].length; i++) {
-            displayMatch(data["matches"][i]);
-        }
-    }
-
-    function displayMatch(match) {
-        var championID = match["champion"];
-        var matchID = match["matchId"];
+    function createMatch(match) {
+        var championID = match["championId"];
+        var matchID = match["gameId"];
 
         //new div to insert
-        var matchDiv = createMatchDiv(matchID, championID);
-        summonerContainer.appendChild(matchDiv);
-    }
-
-    function createMatchDiv(matchID, championID) {
         var matchDiv = document.createElement("div");
         matchDiv.classList.add("match");
 
 
         addChampionImage(matchDiv, championID);
-        addMatchText(matchDiv, matchID);
-        matchDiv.addEventListener("click", function() {
-            alert("Match ID = " + matchID);
 
-        });
+        //Create div for info text
+        var matchTextDiv = document.createElement("div");
+        matchTextDiv.classList.add("matchInfo");
 
+        //Retrieves and adds both result and kda information to match text div
+        addGameResultText(matchTextDiv, match);
+        addKdaText(matchTextDiv, match);
 
-        return matchDiv;
+        matchDiv.appendChild(matchTextDiv);
+
+        summonerContainer.appendChild(matchDiv);
     }
 
+    function addGameResultText(matchTextDiv, match) {
+
+        //Create and populate result paragraph
+        var gameResultPara = document.createElement("p");
+        gameResultPara.classList.add("matchText");
+        var resultTextNode;
+
+        //result is a boolean, true if win, false if lose.
+        var result = match["stats"]["win"];
+
+        //Check to see if the game was won add the need text and class
+        if(result == true) {
+            resultTextNode = document.createTextNode("Victory");
+            gameResultPara.classList.add("victory");
+        }
+        else {
+            resultTextNode = document.createTextNode("Defeat");
+            gameResultPara.classList.add("defeat");
+        }
+
+        gameResultPara.appendChild(resultTextNode);
+        matchTextDiv.appendChild(gameResultPara);
+    }
+
+    function addKdaText(matchTextDiv, match) {
+
+        var kills = match["stats"]["championsKilled"];
+        var deaths = match["stats"]["numDeaths"] === undefined ? "0" : match["stats"]["numDeaths"];
+        var assists = match["stats"]["assists"];
+
+        var kdaString = "KDA: " + kills + "/" + deaths + "/" + assists;
+
+        var gameKdaPara = document.createElement("p");
+        gameKdaPara.classList.add("matchText");
+        var kdaTextNode = document.createTextNode(kdaString);
+        gameKdaPara.appendChild(kdaTextNode);
+
+        matchTextDiv.appendChild(gameKdaPara);
+    }
 
     function addChampionImage(matchDiv, championID) {
         var matchChampion = document.createElement("div");
@@ -55,66 +92,15 @@ var matchlistBuilder = (function() {
 
         var img = document.createElement("img");
         img.classList.add("championImage");
+        img.src = "media/champions/" + championID + ".png";
+        img.alt = "Champion Played: ID - "  + championID;
         matchChampion.appendChild(img);
-
-        var championImageEndpoint = buildChampionImageEndpoint(championID, region);
-        console.log(championImageEndpoint);
-
-
-        riotHandler.queryRiotApi(championImageEndpoint, function(data) {
-            console.log(data);
-            var championName = data["name"];
-            var championImg = data["image"]["full"];
-            img.src = "https://ddragon.leagueoflegends.com/cdn/7.1.1/img/champion/" + championImg;
-            img.alt = "Champion played - " + championName;
-
-        });
 
         matchDiv.appendChild(matchChampion);
     }
 
-    function addMatchText(matchDiv, matchID) {
-        var matchTextDiv = document.createElement("div");
-        matchTextDiv.classList.add("matchInfo");
-
-        var gameResultPara = document.createElement("p");
-        gameResultPara.classList.add("matchText", "gameResult");
-
-
-        var kdaPara = document.createElement("p");
-        kdaPara.classList.add("matchText", "gameKda");
-
-
-        var matchEndpoint = buildMatchEndpoint(matchID, region);
-        console.log(matchEndpoint);
-
-        riotHandler.queryRiotApi(matchEndpoint, function(data) {
-            console.log(data);
-            var result = data["participants"][0]["stats"]["winner"] === true ? "Victory" : "Defeat";
-
-            //Get the game result
-            var resultTextNode = document.createTextNode(result);
-            gameResultPara.appendChild(resultTextNode);
-            matchTextDiv.appendChild(gameResultPara);
-
-            //Get KDA
-            var kdaTextNode = document.createTextNode("kda");
-            kdaPara.appendChild(kdaTextNode);
-            matchTextDiv.appendChild(kdaPara);
-        });
-
-        matchDiv.appendChild(matchTextDiv);
-
-    }
-
     function buildMatchlistEndpoint(summonerID, region) {
-        var indexInfo = encodeURIComponent("?beginIndex=0&endIndex=4");
-        return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.2/matchlist/by-summoner/' + summonerID + indexInfo;
-    }
-
-    function buildChampionImageEndpoint(championID, region) {
-        var champData = encodeURIComponent("?champData=image");
-        return 'https://global.api.pvp.net/api/lol/static-data/' + region + '/v1.2/champion/' + championID + champData;
+        return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.3/game/by-summoner/' + summonerID + "/recent";
     }
 
     function buildMatchEndpoint(matchID, region) {
