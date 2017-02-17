@@ -72,9 +72,10 @@ var matchlistBuilder = (function() {
 
     function addKdaText(matchTextDiv, match) {
 
-        var kills = match["stats"]["championsKilled"];
+        //If these values are 0 they don't appear in the JSON file and are therefore undefined so the check is needed.
+        var kills = match["stats"]["championsKilled"] === undefined ? "0" : match["stats"]["championsKilled"];
         var deaths = match["stats"]["numDeaths"] === undefined ? "0" : match["stats"]["numDeaths"];
-        var assists = match["stats"]["assists"];
+        var assists = match["stats"]["assists"] === undefined ? "0" : match["stats"]["assists"];
 
         var kdaString = "KDA: " + kills + "/" + deaths + "/" + assists;
 
