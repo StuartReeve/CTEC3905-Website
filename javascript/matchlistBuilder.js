@@ -1,7 +1,7 @@
 var matchlistBuilder = (function() {
 
     //global privates
-    var summonerContainer = document.getElementById("summonerContainer");
+    var  matchListContainer = document.getElementById("matchList");
     var riotHandler = riotApiHandler();
     var summonerID;
     var region;
@@ -43,7 +43,12 @@ var matchlistBuilder = (function() {
 
         matchDiv.appendChild(matchTextDiv);
 
-        summonerContainer.appendChild(matchDiv);
+        matchDiv.addEventListener("click", function() {
+            var animate = animation();
+            animate.showMatchDetail();
+        });
+
+        matchListContainer.appendChild(matchDiv);
     }
 
     function addGameResultText(matchTextDiv, match) {

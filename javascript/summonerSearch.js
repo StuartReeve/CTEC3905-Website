@@ -2,15 +2,15 @@ var summonerSearch = (function() {
 
     //global privates
     var riotHandler = riotApiHandler();
-    var summonerContainer = document.getElementById("summonerContainer");
+    var matchListContainer = document.getElementById("matchList");
     var searchField = document.getElementById("summonerSearch");
     var regionSelect = document.getElementById("regionSelect");
     var summonerName = searchField.value;
     var region = regionSelect.value;
 
     function lookupSummoner() {
-        //reset summonerContainer info
-        resetSummonerContainer();
+        //reset resetMatchListContainer info
+        resetMatchListContainer();
 
         var summonerEndpoint = buildSummonerEndpoint(summonerName, region);
         console.log(summonerEndpoint);
@@ -42,9 +42,9 @@ var summonerSearch = (function() {
         return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.4/summoner/by-name/' + summonerName;
     }
 
-    function resetSummonerContainer() {
-        while (summonerContainer.firstChild) {
-            summonerContainer.removeChild(summonerContainer.firstChild);
+    function resetMatchListContainer() {
+        while (matchListContainer.firstChild) {
+            matchListContainer.removeChild(matchListContainer.firstChild);
         }
     }
 
