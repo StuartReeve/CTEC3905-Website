@@ -46,6 +46,9 @@ var matchlistBuilder = (function() {
         matchDiv.addEventListener("click", function() {
             var animate = animation();
             animate.showMatchDetail();
+
+            var detailBuilder = matchDetailBuilder();
+            detailBuilder.buildMatchDetail(matchID, summonerID, region);
         });
 
         matchListContainer.appendChild(matchDiv);
@@ -62,7 +65,7 @@ var matchlistBuilder = (function() {
         var result = match["stats"]["win"];
 
         //Check to see if the game was won add the need text and class
-        if(result == true) {
+        if(result) {
             resultTextNode = document.createTextNode("Victory");
             gameResultPara.classList.add("victory");
         }
@@ -109,10 +112,7 @@ var matchlistBuilder = (function() {
         return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.3/game/by-summoner/' + summonerID + "/recent";
     }
 
-    function buildMatchEndpoint(matchID, region) {
-        return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.2/match/' + matchID;
 
-    }
 
     return {
         buildMatchlist: buildMatchlist

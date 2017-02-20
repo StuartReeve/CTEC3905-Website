@@ -124,7 +124,9 @@ input, select, button {
     cursor: pointer;
     position: absolute;
     top: 0;
-    right: 0;
+    right: 10px;
+    font-size: 2em;
+    font-weight: bolder;
 }
 
 .match {
@@ -180,6 +182,20 @@ input, select, button {
 
 .defeat {
     color: #c50000;
+}
+
+.matchDetailTable {
+    width: 100%;
+}
+
+.matchDetailChampion {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.searchedPlayer {
+    color: #ffd700;
 }
 
 /* Media Queries */
