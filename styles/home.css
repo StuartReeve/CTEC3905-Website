@@ -213,6 +213,11 @@ input, select, button {
     border-radius: 50%;
 }
 
+.errorMessage {
+    text-align: center;
+    font-size: 1.8em;
+}
+
 /* Media Queries */
 
 @media screen and (min-width: 700px) {

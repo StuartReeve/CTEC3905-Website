@@ -1,72 +1,74 @@
-var matchDetailBuilder = (function() {
+let matchDetailBuilder = (function() {
 
-    var matchDetailContainer = document.getElementById("matchDetailContent");
-    var riotHandler = riotApiHandler();
-
-
-
-
-
+    let matchDetailContainer = document.getElementById("matchDetailContent");
+    let riotHandler = riotApiHandler();
 
     function buildMatchDetail(matchID, summonerID, searchedRegion) {
-        var matchEndpoint = buildMatchEndpoint(matchID, searchedRegion);
+        let matchEndpoint = buildMatchEndpoint(matchID, searchedRegion);
 
         riotHandler.queryRiotApi(matchEndpoint, function(data) {
             console.log(data);
 
-            var participants = data["participants"];
+            let participants = data["participants"];
 
-            //CREATE TABLE FOR TEAM 1
-            matchDetailContainer.appendChild(createTeamHeading(data["teams"][0]["winner"]));
+            try {
+                //CREATE TABLE FOR TEAM 1
+                matchDetailContainer.appendChild(createTeamHeading(data["teams"][0]["winner"]));
 
-            var teamOneTable = document.createElement("table");
-            teamOneTable.classList.add("matchDetailTable");
-            teamOneTable.appendChild(createTableHeadings());
-            var tableBody = document.createElement("tbody");
+                let teamOneTable = document.createElement("table");
+                teamOneTable.classList.add("matchDetailTable");
+                teamOneTable.appendChild(createTableHeadings());
+                let tableBody = document.createElement("tbody");
 
-            for(let i = 0; i < participants.length / 2; i++) {
-                var participantIdentity = data["participantIdentities"][i]["player"];
-                var participantStats = participants[i];
+                for (let i = 0; i < participants.length / 2; i++) {
+                    let participantIdentity = data["participantIdentities"][i]["player"];
+                    let participantStats = participants[i];
 
-                tableBody.appendChild(createPlayerTableRow(participantIdentity,participantStats, summonerID));
+                    tableBody.appendChild(createPlayerTableRow(participantIdentity, participantStats, summonerID));
+
+                }
+                teamOneTable.appendChild(tableBody);
+                matchDetailContainer.appendChild(teamOneTable);
+
+
+                //CREATE TABLE FOR TEAM 2
+                matchDetailContainer.appendChild(createTeamHeading(data["teams"][1]["winner"]));
+
+                let teamTwoTable = document.createElement("table");
+                teamTwoTable.classList.add("matchDetailTable");
+                teamTwoTable.appendChild(createTableHeadings());
+                tableBody = document.createElement("tbody");
+
+                for (let i = 5; i < participants.length; i++) {
+                    participantIdentity = data["participantIdentities"][i]["player"];
+                    participantStats = participants[i];
+
+                    tableBody.appendChild(createPlayerTableRow(participantIdentity, participantStats, summonerID));
+
+                }
+                teamTwoTable.appendChild(tableBody);
+                matchDetailContainer.appendChild(teamTwoTable);
 
             }
-            teamOneTable.appendChild(tableBody);
-            matchDetailContainer.appendChild(teamOneTable);
-
-
-
-            //CREATE TABLE FOR TEAM 2
-            matchDetailContainer.appendChild(createTeamHeading(data["teams"][1]["winner"]));
-
-            var teamTwoTable = document.createElement("table");
-            teamTwoTable.classList.add("matchDetailTable");
-            teamTwoTable.appendChild(createTableHeadings());
-            tableBody = document.createElement("tbody");
-
-            for(let i = 5; i < participants.length; i++) {
-                participantIdentity = data["participantIdentities"][i]["player"];
-                participantStats = participants[i];
-
-                tableBody.appendChild(createPlayerTableRow(participantIdentity,participantStats, summonerID));
-
+            catch(error) {
+                clearMatchDetail();
+                let errorParagraph = document.createElement("p");
+                errorParagraph.classList.add("errorMessage");
+                errorParagraph.appendChild(document.createTextNode("Detailed information for games of this type is not available from the API."));
+                matchDetailContainer.appendChild(errorParagraph);
             }
-            teamTwoTable.appendChild(tableBody);
-            matchDetailContainer.appendChild(teamTwoTable);
-
-
 
 
         });
     }
 
     function createTableHeadings() {
-        var tableHeadings = ["Name", "Champion", "Level", "KDA", "Minions", "Items"];
+        let tableHeadings = ["Name", "Champion", "Level", "KDA", "Minions", "Items"];
 
-        var tableHead = document.createElement("thead");
-        var headRow = document.createElement("tr");
+        let tableHead = document.createElement("thead");
+        let headRow = document.createElement("tr");
         tableHeadings.forEach(function(heading) {
-            var th = document.createElement("th");
+            let th = document.createElement("th");
             th.appendChild(document.createTextNode(heading));
             headRow.appendChild(th);
         });
@@ -77,50 +79,50 @@ var matchDetailBuilder = (function() {
     }
 
     function createPlayerTableRow(playerIdentity, playerStats, summonerID) {
-        var playerRow = document.createElement("tr");
+        let playerRow = document.createElement("tr");
         playerRow.classList.add("playerRow");
 
         //Add the summoner name
-        var summonerNameCell = document.createElement("td");
+        let summonerNameCell = document.createElement("td");
         summonerNameCell.appendChild(document.createTextNode(playerIdentity["summonerName"]));
         if(playerIdentity["summonerId"] == summonerID)
             summonerNameCell.classList.add("searchedPlayer");
         playerRow.appendChild(summonerNameCell);
 
         //Add the champion img
-        var championCell = document.createElement("td");
+        let championCell = document.createElement("td");
         championCell.classList.add("centredCell");
-        var championID = playerStats["championId"];
+        let championID = playerStats["championId"];
         addChampionImg(championCell, championID);
         playerRow.appendChild(championCell);
 
         //Add the champion level
-        var levelCell = document.createElement("td");
+        let levelCell = document.createElement("td");
         levelCell.classList.add("centredCell");
         levelCell.appendChild(document.createTextNode(playerStats["stats"]["champLevel"]));
         playerRow.appendChild(levelCell);
 
         //add the KDA
-        var kdaCell = document.createElement("td");
+        let kdaCell = document.createElement("td");
         kdaCell.classList.add("centredCell");
         //If these values are 0 they don't appear in the JSON file and are therefore undefined so the check is needed.
-        var kills = playerStats["stats"]["kills"] === undefined ? "0" : playerStats["stats"]["kills"];
-        var deaths = playerStats["stats"]["deaths"] === undefined ? "0" : playerStats["stats"]["deaths"];
-        var assists = playerStats["stats"]["assists"] === undefined ? "0" : playerStats["stats"]["assists"];
-        var kda = kills + "/" + deaths + "/" + assists;
+        let kills = playerStats["stats"]["kills"] === undefined ? "0" : playerStats["stats"]["kills"];
+        let deaths = playerStats["stats"]["deaths"] === undefined ? "0" : playerStats["stats"]["deaths"];
+        let assists = playerStats["stats"]["assists"] === undefined ? "0" : playerStats["stats"]["assists"];
+        let kda = kills + "/" + deaths + "/" + assists;
         kdaCell.appendChild(document.createTextNode(kda));
         playerRow.appendChild(kdaCell);
 
         //add minion kills
-        var minionsCell = document.createElement("td");
+        let minionsCell = document.createElement("td");
         minionsCell.classList.add("centredCell");
         minionsCell.appendChild(document.createTextNode(playerStats["stats"]["minionsKilled"]));
         playerRow.appendChild(minionsCell);
 
-        var itemsCell = document.createElement("td");
+        let itemsCell = document.createElement("td");
         itemsCell.classList.add("centredCell");
         for(let i = 0; i < 7; i++) {
-            var item = "item" + i;
+            let item = "item" + i;
             addItemImg(itemsCell, playerStats["stats"][item]);
          }
         playerRow.appendChild(itemsCell);
@@ -131,7 +133,7 @@ var matchDetailBuilder = (function() {
     }
 
     function addChampionImg(td, championID) {
-        var img = document.createElement("img");
+        let img = document.createElement("img");
         img.classList.add("matchDetailChampion");
         img.src = "media/champions/" + championID + ".png";
         img.alt = "Champion: ID - "  + championID;
@@ -139,7 +141,7 @@ var matchDetailBuilder = (function() {
     }
 
     function addItemImg(td, itemID) {
-        var img = document.createElement("img");
+        let img = document.createElement("img");
         img.classList.add("item");
         //an itemID of 0 means the item slot is empty so do nothing
 
@@ -156,7 +158,7 @@ var matchDetailBuilder = (function() {
     }
 
     function createTeamHeading(teamResult) {
-        var teamHeading = document.createElement("h2");
+        let teamHeading = document.createElement("h2");
 
 
         if(teamResult) {

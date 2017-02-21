@@ -1,10 +1,10 @@
-var animation = (function() {
+let animation = (function() {
 
     //privates
-    var searchContainer = document.getElementById("searchContainer");
-    var summonerContainer = document.getElementById("summonerContainer");
-    var matchListContainer = document.getElementById("matchList");
-    var matchDetailContainer = document.getElementById("matchDetail");
+    let searchContainer = document.getElementById("searchContainer");
+    let summonerContainer = document.getElementById("summonerContainer");
+    let matchListContainer = document.getElementById("matchList");
+    let matchDetailContainer = document.getElementById("matchDetail");
 
     function animateSearch() {
         searchContainer.classList.add("expanded");

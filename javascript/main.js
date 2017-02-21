@@ -1,8 +1,8 @@
 (function(){
 
-    var searchForm = document.getElementById("searchForm");
-    var summonerDetailCloseButton = document.getElementById("closeDetail");
-    var animate = animation();
+    let searchForm = document.getElementById("searchForm");
+    let summonerDetailCloseButton = document.getElementById("closeDetail");
+    let animate = animation();
 
     //Perform search when submitted
     searchForm.addEventListener("submit", function(event) {
@@ -11,7 +11,7 @@
         animate.animateSearch();
         resetMatchDetail();
 
-        var lookupSummoner = summonerSearch();
+        let lookupSummoner = summonerSearch();
         lookupSummoner.lookupSummoner();
 
         event.preventDefault();

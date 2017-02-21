@@ -1,4 +1,4 @@
-var riotApiHandler = (function() {
+let riotApiHandler = (function() {
 
 
     function queryRiotApi(apiEndpoint, callback) {

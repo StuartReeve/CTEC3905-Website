@@ -1,19 +1,19 @@
-var matchlistBuilder = (function() {
+let matchlistBuilder = (function() {
 
     //global privates
-    var  matchListContainer = document.getElementById("matchList");
-    var riotHandler = riotApiHandler();
-    var summonerID;
-    var region;
+    let  matchListContainer = document.getElementById("matchList");
+    let riotHandler = riotApiHandler();
+    let summonerID;
+    let region;
 
 
     function buildMatchlist(summID, searchedRegion) {
         summonerID = summID;
         region = searchedRegion;
-        var matchlistEndpoint = buildMatchlistEndpoint(summonerID, region);
+        let matchlistEndpoint = buildMatchlistEndpoint(summonerID, region);
         riotHandler.queryRiotApi(matchlistEndpoint, function(data) {
             console.log(data);
-            var gamesArray = data["games"];
+            let gamesArray = data["games"];
 
             for(i=0; i < gamesArray.length; i++) {
                 createMatch(gamesArray[i]);
@@ -23,18 +23,18 @@ var matchlistBuilder = (function() {
     }
 
     function createMatch(match) {
-        var championID = match["championId"];
-        var matchID = match["gameId"];
+        let championID = match["championId"];
+        let matchID = match["gameId"];
 
         //new div to insert
-        var matchDiv = document.createElement("div");
+        let matchDiv = document.createElement("div");
         matchDiv.classList.add("match");
 
 
         addChampionImage(matchDiv, championID);
 
         //Create div for info text
-        var matchTextDiv = document.createElement("div");
+        let matchTextDiv = document.createElement("div");
         matchTextDiv.classList.add("matchInfo");
 
         //Retrieves and adds both result and kda information to match text div
@@ -44,10 +44,10 @@ var matchlistBuilder = (function() {
         matchDiv.appendChild(matchTextDiv);
 
         matchDiv.addEventListener("click", function() {
-            var animate = animation();
+            let animate = animation();
             animate.showMatchDetail();
 
-            var detailBuilder = matchDetailBuilder();
+            let detailBuilder = matchDetailBuilder();
             detailBuilder.buildMatchDetail(matchID, summonerID, region);
         });
 
@@ -57,12 +57,12 @@ var matchlistBuilder = (function() {
     function addGameResultText(matchTextDiv, match) {
 
         //Create and populate result paragraph
-        var gameResultPara = document.createElement("p");
+        let gameResultPara = document.createElement("p");
         gameResultPara.classList.add("matchText");
-        var resultTextNode;
+        let resultTextNode;
 
         //result is a boolean, true if win, false if lose.
-        var result = match["stats"]["win"];
+        let result = match["stats"]["win"];
 
         //Check to see if the game was won add the need text and class
         if(result) {
@@ -81,25 +81,25 @@ var matchlistBuilder = (function() {
     function addKdaText(matchTextDiv, match) {
 
         //If these values are 0 they don't appear in the JSON file and are therefore undefined so the check is needed.
-        var kills = match["stats"]["championsKilled"] === undefined ? "0" : match["stats"]["championsKilled"];
-        var deaths = match["stats"]["numDeaths"] === undefined ? "0" : match["stats"]["numDeaths"];
-        var assists = match["stats"]["assists"] === undefined ? "0" : match["stats"]["assists"];
+        let kills = match["stats"]["championsKilled"] === undefined ? "0" : match["stats"]["championsKilled"];
+        let deaths = match["stats"]["numDeaths"] === undefined ? "0" : match["stats"]["numDeaths"];
+        let assists = match["stats"]["assists"] === undefined ? "0" : match["stats"]["assists"];
 
-        var kdaString = "KDA: " + kills + "/" + deaths + "/" + assists;
+        let kdaString = "KDA: " + kills + "/" + deaths + "/" + assists;
 
-        var gameKdaPara = document.createElement("p");
+        let gameKdaPara = document.createElement("p");
         gameKdaPara.classList.add("matchText");
-        var kdaTextNode = document.createTextNode(kdaString);
+        let kdaTextNode = document.createTextNode(kdaString);
         gameKdaPara.appendChild(kdaTextNode);
 
         matchTextDiv.appendChild(gameKdaPara);
     }
 
     function addChampionImage(matchDiv, championID) {
-        var matchChampion = document.createElement("div");
+        let matchChampion = document.createElement("div");
         matchChampion.classList.add("matchChampion");
 
-        var img = document.createElement("img");
+        let img = document.createElement("img");
         img.classList.add("championImage");
         img.src = "media/champions/" + championID + ".png";
         img.alt = "Champion Played: ID - "  + championID;

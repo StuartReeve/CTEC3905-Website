@@ -1,18 +1,18 @@
-var summonerSearch = (function() {
+let summonerSearch = (function() {
 
     //global privates
-    var riotHandler = riotApiHandler();
-    var matchListContainer = document.getElementById("matchList");
-    var searchField = document.getElementById("summonerSearch");
-    var regionSelect = document.getElementById("regionSelect");
-    var summonerName = searchField.value;
-    var region = regionSelect.value;
+    let riotHandler = riotApiHandler();
+    let matchListContainer = document.getElementById("matchList");
+    let searchField = document.getElementById("summonerSearch");
+    let regionSelect = document.getElementById("regionSelect");
+    let summonerName = searchField.value;
+    let region = regionSelect.value;
 
     function lookupSummoner() {
         //reset resetMatchListContainer info
         resetMatchListContainer();
 
-        var summonerEndpoint = buildSummonerEndpoint(summonerName, region);
+        let summonerEndpoint = buildSummonerEndpoint(summonerName, region);
         console.log(summonerEndpoint);
 
         riotHandler.queryRiotApi(summonerEndpoint, summonerCallback);
@@ -23,15 +23,15 @@ var summonerSearch = (function() {
         console.log("Summoner Name = " + summonerName);
 
         //get the string ready to use with json
-        var summonerNameNoSpaces = summonerName.replace(/ /g, "");
+        let summonerNameNoSpaces = summonerName.replace(/ /g, "");
         summonerNameNoSpaces = summonerNameNoSpaces.toLocaleLowerCase().trim();
         console.log("Summoner name no spaces/lowerecase = " + summonerNameNoSpaces);
 
         //Grab the summoner ID
-        var summonerId = data[summonerNameNoSpaces].id;
+        let summonerId = data[summonerNameNoSpaces].id;
         console.log("Summoner ID = " + summonerId);
 
-        var matchlist = matchlistBuilder();
+        let matchlist = matchlistBuilder();
         matchlist.buildMatchlist(summonerId, region);
     }
 
