@@ -9,6 +9,7 @@
 
         //Perform animation to expand main content
         animate.animateSearch();
+        resetMatchDetail();
 
         var lookupSummoner = summonerSearch();
         lookupSummoner.lookupSummoner();
@@ -18,7 +19,14 @@
 
     //Set on click for the detail close button
     summonerDetailCloseButton.addEventListener("click", function() {
-        animate.hideMatchDetail();
+        resetMatchDetail();
     })
+
+
+    function resetMatchDetail() {
+        animate.hideMatchDetail();
+        let matchDetail = matchDetailBuilder();
+        matchDetail.clearMatchDetail();
+    }
 
 }());

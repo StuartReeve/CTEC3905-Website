@@ -24,7 +24,7 @@ var matchDetailBuilder = (function() {
             teamOneTable.appendChild(createTableHeadings());
             var tableBody = document.createElement("tbody");
 
-            for(i = 0; i < participants.length / 2; i++) {
+            for(let i = 0; i < participants.length / 2; i++) {
                 var participantIdentity = data["participantIdentities"][i]["player"];
                 var participantStats = participants[i];
 
@@ -44,7 +44,7 @@ var matchDetailBuilder = (function() {
             teamTwoTable.appendChild(createTableHeadings());
             tableBody = document.createElement("tbody");
 
-            for(i = 5; i < participants.length; i++) {
+            for(let i = 5; i < participants.length; i++) {
                 participantIdentity = data["participantIdentities"][i]["player"];
                 participantStats = participants[i];
 
@@ -78,6 +78,7 @@ var matchDetailBuilder = (function() {
 
     function createPlayerTableRow(playerIdentity, playerStats, summonerID) {
         var playerRow = document.createElement("tr");
+        playerRow.classList.add("playerRow");
 
         //Add the summoner name
         var summonerNameCell = document.createElement("td");
@@ -88,17 +89,20 @@ var matchDetailBuilder = (function() {
 
         //Add the champion img
         var championCell = document.createElement("td");
+        championCell.classList.add("centredCell");
         var championID = playerStats["championId"];
         addChampionImg(championCell, championID);
         playerRow.appendChild(championCell);
 
         //Add the champion level
         var levelCell = document.createElement("td");
+        levelCell.classList.add("centredCell");
         levelCell.appendChild(document.createTextNode(playerStats["stats"]["champLevel"]));
         playerRow.appendChild(levelCell);
 
         //add the KDA
         var kdaCell = document.createElement("td");
+        kdaCell.classList.add("centredCell");
         //If these values are 0 they don't appear in the JSON file and are therefore undefined so the check is needed.
         var kills = playerStats["stats"]["kills"] === undefined ? "0" : playerStats["stats"]["kills"];
         var deaths = playerStats["stats"]["deaths"] === undefined ? "0" : playerStats["stats"]["deaths"];
@@ -109,8 +113,18 @@ var matchDetailBuilder = (function() {
 
         //add minion kills
         var minionsCell = document.createElement("td");
+        minionsCell.classList.add("centredCell");
         minionsCell.appendChild(document.createTextNode(playerStats["stats"]["minionsKilled"]));
         playerRow.appendChild(minionsCell);
+
+        var itemsCell = document.createElement("td");
+        itemsCell.classList.add("centredCell");
+        for(let i = 0; i < 7; i++) {
+            var item = "item" + i;
+            addItemImg(itemsCell, playerStats["stats"][item]);
+         }
+        playerRow.appendChild(itemsCell);
+
 
 
 
@@ -124,6 +138,23 @@ var matchDetailBuilder = (function() {
         img.classList.add("matchDetailChampion");
         img.src = "media/champions/" + championID + ".png";
         img.alt = "Champion: ID - "  + championID;
+        td.appendChild(img);
+    }
+
+    function addItemImg(td, itemID) {
+        var img = document.createElement("img");
+        img.classList.add("item");
+        //an itemID of 0 means the item slot is empty so do nothing
+
+        if(itemID != 0) {
+            img.src = "media/items/" + itemID + ".png";
+            img.alt = "Item: ID - " + itemID;
+        }
+        else {
+            img.src = "media/items/EmptyIcon.png";
+            img.alt = "No item";
+        }
+
         td.appendChild(img);
     }
 
@@ -143,9 +174,11 @@ var matchDetailBuilder = (function() {
         return teamHeading;
     }
 
-
-
-
+    function clearMatchDetail() {
+        while(matchDetailContainer.firstChild) {
+            matchDetailContainer.removeChild(matchDetailContainer.firstChild);
+        }
+    }
 
 
     function buildMatchEndpoint(matchID, region) {
@@ -153,7 +186,8 @@ var matchDetailBuilder = (function() {
     }
 
     return {
-        buildMatchDetail: buildMatchDetail
+        buildMatchDetail: buildMatchDetail,
+        clearMatchDetail: clearMatchDetail
     }
 
 

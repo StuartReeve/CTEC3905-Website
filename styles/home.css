@@ -184,8 +184,20 @@ input, select, button {
     color: #c50000;
 }
 
+.searchedPlayer {
+    color: #ffd700;
+}
+
 .matchDetailTable {
     width: 100%;
+    border-collapse: collapse;
+}
+.playerRow {
+    border-bottom: 1px solid white;
+}
+
+.centredCell {
+    text-align: center;
 }
 
 .matchDetailChampion {
@@ -194,8 +206,10 @@ input, select, button {
     border-radius: 50%;
 }
 
-.searchedPlayer {
-    color: #ffd700;
+.item {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
 }
 
 /* Media Queries */
