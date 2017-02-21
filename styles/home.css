@@ -192,6 +192,7 @@ input, select, button {
     width: 100%;
     border-collapse: collapse;
 }
+
 .playerRow {
     border-bottom: 1px solid white;
 }
@@ -207,8 +208,8 @@ input, select, button {
 }
 
 .item {
-    width: 32px;
-    height: 32px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
 }
 
@@ -221,6 +222,11 @@ input, select, button {
 
     .match:nth-last-child(-n+2) {
         border-bottom: 0;
+    }
+
+    .item {
+        width: 32px;
+        height: 32px;
     }
 
 }

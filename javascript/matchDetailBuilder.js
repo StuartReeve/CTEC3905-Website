@@ -61,7 +61,7 @@ var matchDetailBuilder = (function() {
     }
 
     function createTableHeadings() {
-        var tableHeadings = ["Name", "Champion", "Level", "KDA", "Minions", "items"];
+        var tableHeadings = ["Name", "Champion", "Level", "KDA", "Minions", "Items"];
 
         var tableHead = document.createElement("thead");
         var headRow = document.createElement("tr");
@@ -124,9 +124,6 @@ var matchDetailBuilder = (function() {
             addItemImg(itemsCell, playerStats["stats"][item]);
          }
         playerRow.appendChild(itemsCell);
-
-
-
 
         return playerRow;
 
