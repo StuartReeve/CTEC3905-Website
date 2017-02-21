@@ -15,12 +15,12 @@
         lookupSummoner.lookupSummoner();
 
         event.preventDefault();
-    })
+    });
 
     //Set on click for the detail close button
     summonerDetailCloseButton.addEventListener("click", function() {
         resetMatchDetail();
-    })
+    });
 
 
     function resetMatchDetail() {
