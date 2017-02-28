@@ -137,10 +137,11 @@ input, select, button {
     border-bottom: 1px solid white;
     box-sizing: border-box;
     transition: background-color 0.3s linear;
+    cursor: pointer;
 }
 
 .match:hover {
-    background-color: #7E93A8;
+    background-color: #434c5c;
 }
 
 .match:last-child {
