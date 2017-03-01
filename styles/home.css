@@ -268,16 +268,16 @@ input, select, button {
     }
 
     #matchList {
+        height: calc(155px * 3);
 
-        padding-top: 6%;
     }
 
     .match {
         width: 33%;
     }
 
-    .match:nth-last-child(2) {
-        border-bottom: 1px solid white;
+    .match:nth-last-child(-n+3) {
+        border-bottom: 0;
     }
 }
 

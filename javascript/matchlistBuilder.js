@@ -15,10 +15,9 @@ let matchlistBuilder = (function() {
             console.log(data);
             let gamesArray = data["games"];
 
-            for(i=0; i < gamesArray.length; i++) {
+            for(i=0; i < gamesArray.length -1; i++) {
                 createMatch(gamesArray[i]);
             }
-
         });
     }
 
@@ -70,12 +69,15 @@ let matchlistBuilder = (function() {
     }
 
     function addGameMode(matchTextDiv, match) {
+        //Key value pairs so that you can get a nicely formated string for each game mode
         let gameModes = {
             "RANKED_SOLO_5x5"   : "Solo Ranked",
             "RANKED_FLEX_SR"    : "Flex 5v5 Ranked",
             "NORMAL"            : "Normal",
-            "ARAM_UNRANKED_5x5" : "ARAM"
-        }
+            "ARAM_UNRANKED_5x5" : "ARAM",
+            "URF"               : "URF"
+        };
+
         let gameType = match.subType;
         console.log(gameType);
         let gameTypeString = gameModes[gameType];
@@ -136,14 +138,15 @@ let matchlistBuilder = (function() {
         let timeBetween = new Date(currentTime - timestamp);
         let amountOfDaysSince = Math.round(timeBetween.getTime() / 86400000);
         let amountOfHoursSince = Math.round(timeBetween.getTime() / 3600000);
+        console.log( amountOfDaysSince);
 
         //Checking to see how to display when the game was played based on how long ago it was.
         if(amountOfHoursSince < 1)
             timePlayedString = Math.round(timeBetween.getMinutes()) + " minutes ago";
-        else if(amountOfDaysSince < 1)
+        else if(amountOfHoursSince < 24)
             timePlayedString = amountOfHoursSince + " hours ago";
         else if(amountOfDaysSince < 28)
-            timePlayedString = amountOfDaysSince + " days ago";
+            timePlayedString = amountOfDaysSince == 1 ? "a day ago" : amountOfDaysSince +  " days ago";
         else
             timePlayedString ="A long time ago";
 

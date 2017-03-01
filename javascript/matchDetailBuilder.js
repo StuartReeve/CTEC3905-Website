@@ -51,6 +51,7 @@ let matchDetailBuilder = (function() {
 
             }
             catch(error) {
+                console.log(error);
                 clearMatchDetail();
                 let errorParagraph = document.createElement("p");
                 errorParagraph.classList.add("errorMessage");
@@ -84,9 +85,16 @@ let matchDetailBuilder = (function() {
 
         //Add the summoner name
         let summonerNameCell = document.createElement("td");
-        summonerNameCell.appendChild(document.createTextNode(playerIdentity["summonerName"]));
-        if(playerIdentity["summonerId"] == summonerID)
-            summonerNameCell.classList.add("searchedPlayer");
+        let summName;
+        if(playerIdentity != undefined) {
+            summName = playerIdentity.summonerName;
+            if (playerIdentity["summonerId"] == summonerID)
+                summonerNameCell.classList.add("searchedPlayer");
+        }
+        else {
+            summName = "Hidden by API";
+        }
+        summonerNameCell.appendChild(document.createTextNode(summName));
         playerRow.appendChild(summonerNameCell);
 
         //Add the champion img
@@ -106,9 +114,9 @@ let matchDetailBuilder = (function() {
         let kdaCell = document.createElement("td");
         kdaCell.classList.add("centredCell");
         //If these values are 0 they don't appear in the JSON file and are therefore undefined so the check is needed.
-        let kills = playerStats["stats"]["kills"] === undefined ? "0" : playerStats["stats"]["kills"];
-        let deaths = playerStats["stats"]["deaths"] === undefined ? "0" : playerStats["stats"]["deaths"];
-        let assists = playerStats["stats"]["assists"] === undefined ? "0" : playerStats["stats"]["assists"];
+        let kills = playerStats.stats.kills || "0";
+        let deaths = playerStats.stats.deaths || "0";
+        let assists = playerStats.stats.assists || "0";
         let kda = kills + "/" + deaths + "/" + assists;
         kdaCell.appendChild(document.createTextNode(kda));
         playerRow.appendChild(kdaCell);
