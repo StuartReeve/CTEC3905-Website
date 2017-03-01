@@ -38,9 +38,10 @@ let matchlistBuilder = (function() {
         matchTextDiv.classList.add("matchInfo");
 
         //Retrieves and adds both result and kda information to match text div
+        addGameMode(matchTextDiv, match);
+        addTimestamp(matchTextDiv, match);
         addGameResultText(matchTextDiv, match);
         addKdaText(matchTextDiv, match);
-        addTimestamp(matchTextDiv, match);
 
         matchDiv.appendChild(matchTextDiv);
 
@@ -66,6 +67,22 @@ let matchlistBuilder = (function() {
         matchChampion.appendChild(img);
 
         matchDiv.appendChild(matchChampion);
+    }
+
+    function addGameMode(matchTextDiv, match) {
+        let gameModes = {
+            "RANKED_SOLO_5x5"   : "Solo Ranked",
+            "RANKED_FLEX_SR"    : "Flex 5v5 Ranked",
+            "ARAM_UNRANKED_5x5" : "ARAM"
+        }
+        let gameType = match.subType;
+        console.log(gameType);
+        let gameTypeString = gameModes[gameType];
+
+        let gameTypePara = document.createElement("p");
+        gameTypePara.classList.add("matchText");
+        gameTypePara.appendChild(document.createTextNode(gameTypeString));
+        matchTextDiv.appendChild(gameTypePara);
     }
 
     function addGameResultText(matchTextDiv, match) {

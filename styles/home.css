@@ -160,7 +160,7 @@ input, select, button {
     width: 50%;
     float: left;
     box-sizing: border-box;
-    padding: 15px;
+    padding-top: 15px;
 }
 
 .championImage {
@@ -175,6 +175,7 @@ input, select, button {
 .matchText {
     text-align: center;
     color: white;
+    margin: 5px 0 5px 0;
 }
 
 .victory {
