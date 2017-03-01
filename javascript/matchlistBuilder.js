@@ -40,6 +40,7 @@ let matchlistBuilder = (function() {
         //Retrieves and adds both result and kda information to match text div
         addGameResultText(matchTextDiv, match);
         addKdaText(matchTextDiv, match);
+        addTimestamp(matchTextDiv, match);
 
         matchDiv.appendChild(matchTextDiv);
 
@@ -52,6 +53,19 @@ let matchlistBuilder = (function() {
         });
 
         matchListContainer.appendChild(matchDiv);
+    }
+
+    function addChampionImage(matchDiv, championID) {
+        let matchChampion = document.createElement("div");
+        matchChampion.classList.add("matchChampion");
+
+        let img = document.createElement("img");
+        img.classList.add("championImage");
+        img.src = "media/champions/" + championID + ".png";
+        img.alt = "Champion Played: ID - "  + championID;
+        matchChampion.appendChild(img);
+
+        matchDiv.appendChild(matchChampion);
     }
 
     function addGameResultText(matchTextDiv, match) {
@@ -81,9 +95,9 @@ let matchlistBuilder = (function() {
     function addKdaText(matchTextDiv, match) {
 
         //If these values are 0 they don't appear in the JSON file and are therefore undefined so the check is needed.
-        let kills = match["stats"]["championsKilled"] === undefined ? "0" : match["stats"]["championsKilled"];
-        let deaths = match["stats"]["numDeaths"] === undefined ? "0" : match["stats"]["numDeaths"];
-        let assists = match["stats"]["assists"] === undefined ? "0" : match["stats"]["assists"];
+        let kills = match.stats.championsKilled  || "0";
+        let deaths = match.stats.numDeaths       || "0";
+        let assists = match.stats.assists        || "0";
 
         let kdaString = "KDA: " + kills + "/" + deaths + "/" + assists;
 
@@ -95,18 +109,36 @@ let matchlistBuilder = (function() {
         matchTextDiv.appendChild(gameKdaPara);
     }
 
-    function addChampionImage(matchDiv, championID) {
-        let matchChampion = document.createElement("div");
-        matchChampion.classList.add("matchChampion");
+    //Timestamps in the Riot API are stored in epoch milliseconds so some conversion is needed to find out when
+    //the game was played and display the it in the appropriate time. e.g Hours ago
+    function addTimestamp(matchTextDiv, match) {
+        let timePlayedString = "";
+        let timestamp = new Date(match.createDate);
+        let currentTime = new Date().getTime();
+        let timeBetween = new Date(currentTime - timestamp);
+        let amountOfDaysSince = Math.round(timeBetween.getTime() / 86400000);
+        let amountOfHoursSince = Math.round(timeBetween.getTime() / 3600000);
 
-        let img = document.createElement("img");
-        img.classList.add("championImage");
-        img.src = "media/champions/" + championID + ".png";
-        img.alt = "Champion Played: ID - "  + championID;
-        matchChampion.appendChild(img);
+        //Checking to see how to display when the game was played based on how long ago it was.
+        if(amountOfHoursSince < 1)
+            timePlayedString = Math.round(timeBetween.getMinutes()) + " minutes ago";
+        else if(amountOfDaysSince < 1)
+            timePlayedString = amountOfHoursSince + " hours ago";
+        else if(amountOfDaysSince < 28)
+            timePlayedString = amountOfDaysSince + " days ago";
+        else
+            timePlayedString ="A long time ago";
 
-        matchDiv.appendChild(matchChampion);
+
+        //Add time played text string to paragraph and add the paragraph to the text div container.
+        let timestampPara = document.createElement("p");
+        timestampPara.classList.add("matchText");
+        timestampPara.appendChild(document.createTextNode(timePlayedString));
+        matchTextDiv.appendChild(timestampPara);
+
     }
+
+
 
     function buildMatchlistEndpoint(summonerID, region) {
         return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.3/game/by-summoner/' + summonerID + "/recent";
