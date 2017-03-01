@@ -73,6 +73,7 @@ let matchlistBuilder = (function() {
         let gameModes = {
             "RANKED_SOLO_5x5"   : "Solo Ranked",
             "RANKED_FLEX_SR"    : "Flex 5v5 Ranked",
+            "NORMAL"            : "Normal",
             "ARAM_UNRANKED_5x5" : "ARAM"
         }
         let gameType = match.subType;
