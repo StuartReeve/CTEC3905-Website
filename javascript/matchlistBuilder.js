@@ -1,24 +1,127 @@
 let matchlistBuilder = (function() {
 
     //global privates
-    let  matchListContainer = document.getElementById("matchList");
+    let  summonerProfileContainer = document.getElementById("summonerProfile");
     let riotHandler = riotApiHandler();
     let summonerID;
+    let summonerName;
     let region;
 
-
-    function buildMatchlist(summID, searchedRegion) {
+    function buildProfile(summID, summName, searchedRegion) {
         summonerID = summID;
+        summonerName = summName;
         region = searchedRegion;
+
+        buildProfileHeader();
+        buildMatchlist();
+    }
+
+    function buildProfileHeader() {
+
+        //Add Summoner header info
+
+        let profileHeaderContainer = document.createElement("div");
+        profileHeaderContainer.id = "profileHeader";
+
+        let profileStatsContainer = document.createElement("div");
+        profileStatsContainer.id = "profileStats";
+
+        let summonerNameHeader = document.createElement("h1");
+        summonerNameHeader.classList.add("statHeader");
+        summonerNameHeader.appendChild(document.createTextNode(summonerName));
+        profileStatsContainer.appendChild(summonerNameHeader);
+
+
+
+        //Add most played champion header info
+        let mostPlayedContainer = document.createElement("div");
+        mostPlayedContainer.id = "mostPlayedChamps";
+
+        let mostPlayedHeader = document.createElement("h3");
+        mostPlayedHeader.classList.add("statHeader");
+        mostPlayedHeader.appendChild(document.createTextNode("Most Played Champions"));
+        mostPlayedContainer.appendChild(mostPlayedHeader);
+
+        //Make an api call to add overall account stats and top played champion stats.
+        //Can get both stats from one call so bundling it in one query
+        let rankedStatsEndpoint = buildRankedStatsEndpoint(summonerID, region);
+        riotHandler.queryRiotApi(rankedStatsEndpoint, function (data) {
+            //Sort the champions array by most games as I only want to get them in order of most played
+            let champions = data.champions.sort((a, b) => b.stats.totalSessionsPlayed - a.stats.totalSessionsPlayed);
+            console.log(champions);
+
+            //Add account stats
+            addSummonerPlayerInfo(profileStatsContainer, champions);
+            profileHeaderContainer.appendChild(profileStatsContainer);
+
+            //Add most played stats
+            addMostPlayedChamps(mostPlayedContainer, champions);
+            profileHeaderContainer.appendChild(mostPlayedContainer);
+
+        });
+        summonerProfileContainer.appendChild(profileHeaderContainer);
+    }
+
+    //the championData also has an index that contains all information added together, I am using this to get around making extra api calls.
+    //The champion data was sorted before getting to this function so the first element contains all of the games together.
+    function addSummonerPlayerInfo(profileStatsContainer, championData) {
+        let winLossPara = document.createElement("p");
+        winLossPara.classList.add("profileStat");
+        let winratePara = document.createElement("p");
+        winratePara.classList.add("profileStat");
+
+        let played = championData[0].stats.totalSessionsPlayed;
+        let wins = championData[0].stats.totalSessionsWon;
+        let losses = championData[0].stats.totalSessionsLost;
+        let winrate = Math.round((wins / played) * 100) + "%";
+
+        winLossPara.appendChild(document.createTextNode(wins + " W " + losses + "L"));
+        winratePara.appendChild(document.createTextNode(winrate));
+
+        profileStatsContainer.appendChild(winLossPara);
+        profileStatsContainer.appendChild(winratePara);
+
+    }
+
+    function addMostPlayedChamps(mostPlayedContainer, championData) {
+            //Start loop from 1 as index 0 is all champion data together.
+        for(let i = 1; i < 4; i++) {
+            let championID = championData[i].id;
+
+            let mostPlayedChampion = document.createElement("div");
+            mostPlayedChampion.classList.add("mostPlayed");
+
+            let img = document.createElement("img");
+            img.classList.add("mostPlayedImage");
+            img.src = "media/champions/" + championID + ".png";
+            img.alt = "Most Played Champion: ID - "  + championID;
+
+            let winrateText = document.createElement("p");
+            winrateText.classList.add("champWinrate");
+            let winrate = Math.round((championData[i].stats.totalSessionsWon / championData[i].stats.totalSessionsPlayed) * 100) + "%";
+            winrateText.appendChild(document.createTextNode(winrate));
+
+            mostPlayedChampion.appendChild(img);
+            mostPlayedChampion.appendChild(winrateText);
+            mostPlayedContainer.appendChild(mostPlayedChampion);
+        }
+    }
+
+    function buildMatchlist() {
+
         let matchlistEndpoint = buildMatchlistEndpoint(summonerID, region);
+
+        let matchListContainer = document.createElement("div");
+        matchListContainer.id = "matchList";
         riotHandler.queryRiotApi(matchlistEndpoint, function(data) {
             console.log(data);
             let gamesArray = data["games"];
 
-            for(i=0; i < gamesArray.length -1; i++) {
-                createMatch(gamesArray[i]);
+            for(let i=0; i < gamesArray.length - 1; i++) {
+                matchListContainer.appendChild(createMatch(gamesArray[i]));
             }
         });
+        summonerProfileContainer.appendChild(matchListContainer);
     }
 
     function createMatch(match) {
@@ -52,7 +155,7 @@ let matchlistBuilder = (function() {
             detailBuilder.buildMatchDetail(matchID, summonerID, region);
         });
 
-        matchListContainer.appendChild(matchDiv);
+        return matchDiv;
     }
 
     function addChampionImage(matchDiv, championID) {
@@ -79,7 +182,6 @@ let matchlistBuilder = (function() {
         };
 
         let gameType = match.subType;
-        console.log(gameType);
         let gameTypeString = gameModes[gameType];
 
         let gameTypePara = document.createElement("p");
@@ -138,7 +240,6 @@ let matchlistBuilder = (function() {
         let timeBetween = new Date(currentTime - timestamp);
         let amountOfDaysSince = Math.round(timeBetween.getTime() / 86400000);
         let amountOfHoursSince = Math.round(timeBetween.getTime() / 3600000);
-        console.log( amountOfDaysSince);
 
         //Checking to see how to display when the game was played based on how long ago it was.
         if(amountOfHoursSince < 1)
@@ -165,10 +266,13 @@ let matchlistBuilder = (function() {
         return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.3/game/by-summoner/' + summonerID + "/recent";
     }
 
+    function buildRankedStatsEndpoint(summonerID, region) {
+        return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.3/stats/by-summoner/' + summonerID + "/ranked";
+    }
+
 
 
     return {
-        buildMatchlist: buildMatchlist
-
+        buildProfile: buildProfile
     }
 });

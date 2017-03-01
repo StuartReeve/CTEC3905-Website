@@ -2,7 +2,7 @@ let summonerSearch = (function() {
 
     //global privates
     let riotHandler = riotApiHandler();
-    let matchListContainer = document.getElementById("matchList");
+    let profileContainer = document.getElementById("summonerProfile");
     let searchField = document.getElementById("summonerSearch");
     let regionSelect = document.getElementById("regionSelect");
     let summonerName = searchField.value;
@@ -10,7 +10,7 @@ let summonerSearch = (function() {
 
     function lookupSummoner() {
         //reset resetMatchListContainer info
-        resetMatchListContainer();
+        resetProfileContainer();
 
         let summonerEndpoint = buildSummonerEndpoint(summonerName, region);
         console.log(summonerEndpoint);
@@ -28,8 +28,8 @@ let summonerSearch = (function() {
             let summonerId = data[summonerNameNoSpaces].id;
             console.log("Summoner ID = " + summonerId);
 
-            let matchlist = matchlistBuilder();
-            matchlist.buildMatchlist(summonerId, region);
+            let profileBuilder = matchlistBuilder();
+            profileBuilder.buildProfile(summonerId, summonerName, region);
         });
     }
 
@@ -40,9 +40,9 @@ let summonerSearch = (function() {
         return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.4/summoner/by-name/' + summonerName;
     }
 
-    function resetMatchListContainer() {
-        while (matchListContainer.firstChild) {
-            matchListContainer.removeChild(matchListContainer.firstChild);
+    function resetProfileContainer() {
+        while (profileContainer.firstChild) {
+            profileContainer.removeChild(profileContainer.firstChild);
         }
     }
 

@@ -3,7 +3,7 @@ let animation = (function() {
     //privates
     let searchContainer = document.getElementById("searchContainer");
     let summonerContainer = document.getElementById("summonerContainer");
-    let matchListContainer = document.getElementById("matchList");
+    let profileContainer = document.getElementById("summonerProfile");
     let matchDetailContainer = document.getElementById("matchDetail");
 
     function animateSearch() {
@@ -12,13 +12,13 @@ let animation = (function() {
     }
 
     function showMatchDetail() {
-        matchListContainer.classList.add("hidden");
+        profileContainer.classList.add("hidden");
         matchDetailContainer.classList.remove("hidden");
     }
 
     function hideMatchDetail() {
         matchDetailContainer.classList.add("hidden");
-        matchListContainer.classList.remove("hidden");
+        profileContainer.classList.remove("hidden");
     }
 
 
