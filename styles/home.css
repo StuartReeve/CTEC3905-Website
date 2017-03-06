@@ -104,7 +104,7 @@ input, select, button {
     box-sizing: border-box;
     width: 100%;
     padding: 0 10px;
-    background-color: #1e1f33;
+    background: #1e1f33;
 }
 
 #profileStats {
@@ -118,6 +118,7 @@ input, select, button {
 #mostPlayedChamps {
     text-align: center;
     border-bottom: 1px solid white;
+    background: #1e1f33;;
 }
 
 .statHeader {
@@ -162,7 +163,7 @@ input, select, button {
 #matchDetail {
     position: relative;
     width: 100%;
-    background-color: #1e1f33;
+    background: #1e1f33;
     box-sizing: border-box;
     padding: 30px 10px 0 10px;
     animation: opacityHidden 1s ease-out;
