@@ -1,4 +1,5 @@
 let animation = (function() {
+    "use strict";
 
     //privates
     let searchContainer = document.getElementById("searchContainer");

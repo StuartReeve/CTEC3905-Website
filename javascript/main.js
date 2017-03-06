@@ -1,4 +1,5 @@
 (function(){
+    "use strict";
 
     let searchForm = document.getElementById("searchForm");
     let summonerDetailCloseButton = document.getElementById("closeDetail");

@@ -1,5 +1,6 @@
 let riotApiHandler = (function() {
-
+    "use strict"
+;
 
     function queryRiotApi(apiEndpoint, callback) {
 
@@ -7,13 +8,13 @@ let riotApiHandler = (function() {
             //Call is made to a php wrapper for the riot api as calls can't be made in javascript due to CORS.
             //PHP code also allows for the api key to be hidden.
             $.ajax({
-                url: 'http://riot-api-wrapper.sreeve.tech?riotUrl=' + apiEndpoint,
+                url:`http://riot-api-wrapper.sreeve.tech?riotUrl=${apiEndpoint}`,
                 type: 'GET',
                 dataType: 'json',
                 data: {},
                 success: callback,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    console.log("Failed to get data from riot API. " + errorThrown.toString());
+                    console.log(`Failed to get data from riot API.${errorThrown.toString()}`);
                     //return false;
                 }
 

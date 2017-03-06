@@ -1,4 +1,5 @@
 let matchDetailBuilder = (function() {
+    "use strict";
 
     let matchDetailContainer = document.getElementById("matchDetailContent");
     let riotHandler = riotApiHandler();
@@ -153,8 +154,8 @@ let matchDetailBuilder = (function() {
 
         let championImage = document.createElement("img");
         championImage.classList.add("matchDetailChampion");
-        championImage.src = "media/champions/" + championID + ".png";
-        championImage.alt = "Champion: ID - "  + championID;
+        championImage.src = `media/champions/${championID}.png`;
+        championImage.alt = `Champion: ID - ${championID}`;
 
         championCell.appendChild(championImage);
 
@@ -178,7 +179,7 @@ let matchDetailBuilder = (function() {
         let kills = playerStats.stats.kills || "0";
         let deaths = playerStats.stats.deaths || "0";
         let assists = playerStats.stats.assists || "0";
-        let kda = kills + "/" + deaths + "/" + assists;
+        let kda = `${kills}/${deaths}/${assists}`;
 
         kdaCell.appendChild(document.createTextNode(kda));
 
@@ -205,12 +206,12 @@ let matchDetailBuilder = (function() {
             itemImg.classList.add("item");
 
             if(itemID != 0) {
-                itemImg.src = "media/items/" + itemID + ".png";
-                itemImg.alt = "Item: ID - " + itemID;
+                itemImg.src = `media/items/${itemID}.png`;
+                itemImg.alt = `Item: ID - ${itemID}`;
             }
             else {
-                itemImg.src = "media/items/EmptyIcon.png";
-                itemImg.alt = "No item";
+                itemImg.src = `media/items/EmptyIcon.png`;
+                itemImg.alt = `No item`;
             }
             itemsCell.appendChild(itemImg);
         }
@@ -224,11 +225,11 @@ let matchDetailBuilder = (function() {
     }
 
     function buildMatchEndpoint(matchID, region) {
-        return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.2/match/' + matchID;
+        return `https://${region}.api.pvp.net/api/lol/${region}/v2.2/match/${matchID}`;
     }
 
     function buildChampionEndpoint(champID, region) {
-        return 'https://global.api.pvp.net/api/lol/static-data/' + region + '/v1.2/champion/' + champID;
+        return `https://global.api.pvp.net/api/lol/static-data/${region}/v1.2/champion/${champID}`;
     }
 
     return {

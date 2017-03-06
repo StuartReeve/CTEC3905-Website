@@ -1,4 +1,5 @@
 let matchlistBuilder = (function() {
+    "use strict";
 
     //global privates
     let  summonerProfileContainer = document.getElementById("summonerProfile");
@@ -48,7 +49,6 @@ let matchlistBuilder = (function() {
         riotHandler.queryRiotApi(rankedStatsEndpoint, function (data) {
             //Sort the champions array by most games as I only want to get them in order of most played
             let champions = data.champions.sort((a, b) => b.stats.totalSessionsPlayed - a.stats.totalSessionsPlayed);
-            console.log(champions);
 
             //Add account stats
             addSummonerPlayerInfo(profileStatsContainer, champions);
@@ -93,8 +93,8 @@ let matchlistBuilder = (function() {
 
             let img = document.createElement("img");
             img.classList.add("mostPlayedImage");
-            img.src = "media/champions/" + championID + ".png";
-            img.alt = "Most Played Champion: ID - "  + championID;
+            img.src = `media/champions/${championID}.png`;
+            img.alt = `Most Played Champion: ID - ${championID}`;
 
             let winrateText = document.createElement("p");
             winrateText.classList.add("champWinrate");
@@ -108,13 +108,11 @@ let matchlistBuilder = (function() {
     }
 
     function buildMatchlist() {
-
         let matchlistEndpoint = buildMatchlistEndpoint(summonerID, region);
 
         let matchListContainer = document.createElement("div");
         matchListContainer.id = "matchList";
         riotHandler.queryRiotApi(matchlistEndpoint, function(data) {
-            console.log(data);
             let gamesArray = data["games"];
 
             for(let i=0; i < gamesArray.length - 1; i++) {
@@ -164,8 +162,8 @@ let matchlistBuilder = (function() {
 
         let img = document.createElement("img");
         img.classList.add("championImage");
-        img.src = "media/champions/" + championID + ".png";
-        img.alt = "Champion Played: ID - "  + championID;
+        img.src = `media/champions/${championID}.png`;
+        img.alt = `Champion Played: ID - ${championID}`;
         matchChampion.appendChild(img);
 
         matchDiv.appendChild(matchChampion);
@@ -221,7 +219,7 @@ let matchlistBuilder = (function() {
         let deaths = match.stats.numDeaths       || "0";
         let assists = match.stats.assists        || "0";
 
-        let kdaString = "KDA: " + kills + "/" + deaths + "/" + assists;
+        let kdaString = `KDA:${kills}/${deaths}/${assists}`;
 
         let gameKdaPara = document.createElement("p");
         gameKdaPara.classList.add("matchText");
@@ -243,13 +241,13 @@ let matchlistBuilder = (function() {
 
         //Checking to see how to display when the game was played based on how long ago it was.
         if(amountOfHoursSince < 1)
-            timePlayedString = Math.round(timeBetween.getMinutes()) + " minutes ago";
+            timePlayedString = `${Math.round(timeBetween.getMinutes())} minutes ago`;
         else if(amountOfHoursSince < 24)
-            timePlayedString = amountOfHoursSince + " hours ago";
+            timePlayedString = `${amountOfHoursSince} hours ago`;
         else if(amountOfDaysSince < 28)
-            timePlayedString = amountOfDaysSince == 1 ? "a day ago" : amountOfDaysSince +  " days ago";
+            timePlayedString = amountOfDaysSince == 1 ? `a day ago` : `${amountOfDaysSince} days ago`;
         else
-            timePlayedString ="A long time ago";
+            timePlayedString =`A long time ago`;
 
 
         //Add time played text string to paragraph and add the paragraph to the text div container.
@@ -263,11 +261,11 @@ let matchlistBuilder = (function() {
 
 
     function buildMatchlistEndpoint(summonerID, region) {
-        return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.3/game/by-summoner/' + summonerID + "/recent";
+        return `https://${region}.api.pvp.net/api/lol/${region}/v1.3/game/by-summoner/${summonerID}/recent`;
     }
 
     function buildRankedStatsEndpoint(summonerID, region) {
-        return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.3/stats/by-summoner/' + summonerID + "/ranked";
+        return `https://${region}.api.pvp.net/api/lol/${region}/v1.3/stats/by-summoner/${summonerID}/ranked`;
     }
 
 
