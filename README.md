@@ -103,10 +103,13 @@ the revealing module pattern can be read [here](https://addyosmani.com/resources
 The site has been tested on Desktop using Chrome and Firefox as well as mobile and tablet
 using the Chrome browser for Android.
 
-
-
-
-
+###HTML Validation
+As the majority of the HTML is inserted to the website, validating the website from the
+URL will not give true results. The best way to validate the website is to perform a
+search for a summoner to generate the HTML, then copy the HTML from the browser 
+developer tools. To do this right click on the html tag and select copy outer html.
+This however will likely not include the DOCTYPE from the HTML.
  
+During testing I received no errors from the W3C HTML validator. 
  
  
