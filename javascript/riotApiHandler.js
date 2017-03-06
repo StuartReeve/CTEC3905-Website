@@ -21,7 +21,6 @@ let riotApiHandler = (function() {
         }
     }
 
-
     return {
         queryRiotApi : queryRiotApi
     }

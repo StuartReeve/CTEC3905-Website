@@ -242,6 +242,16 @@ input, select, button {
 .matchDetailTable {
     width: 100%;
     border-collapse: collapse;
+    font-size: 0.8em;
+}
+
+.matchDetailTable td:nth-child(1) {
+    width: 20%;
+    min-width: 90px;
+}
+
+.matchDetailTable td:nth-child(6) {
+    min-width: 60px ;
 }
 
 .playerRow {
@@ -279,6 +289,10 @@ input, select, button {
     .item {
         width: 32px;
         height: 32px;
+    }
+
+    .matchDetailTable {
+        font-size: 1em;
     }
 
 }
@@ -341,5 +355,5 @@ input, select, button {
         display: block;
         opacity: 1;
     }
-    
+
 }
