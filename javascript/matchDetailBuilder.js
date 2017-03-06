@@ -72,6 +72,14 @@ let matchDetailBuilder = (function() {
 
             matchDetailContainer.appendChild(team2Container);
 
+        },
+         //the function which is used if the api call fails
+        function(XMLHttpRequest, textStatus, errorThrown) {
+            clearMatchDetail();
+            let errorText = document.createElement("h1");
+            errorText.classList.add("errorMessage");
+            errorText.appendChild(document.createTextNode("Details cannot be retrieved for this match."));
+            matchDetailContainer.appendChild(errorText);
         });
 
     }

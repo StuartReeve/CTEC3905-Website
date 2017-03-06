@@ -2,7 +2,12 @@ let riotApiHandler = (function() {
     "use strict"
 ;
 
-    function queryRiotApi(apiEndpoint, callback) {
+    /*queryRiotAPI takes 3 arguments:
+        -the endpoint to be requested
+        -A function to be called on success
+        -A function to be called on error - all error functions need at least the following params- (XMLHttpRequest, textStatus, errorThrown)
+     */
+    function queryRiotApi(apiEndpoint, callback, errorFunction) {
 
         if(apiEndpoint != "") {
             //Call is made to a php wrapper for the riot api as calls can't be made in javascript due to CORS.
@@ -13,10 +18,7 @@ let riotApiHandler = (function() {
                 dataType: 'json',
                 data: {},
                 success: callback,
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    console.log(`Failed to get data from riot API.${errorThrown.toString()}`);
-                    //return false;
-                }
+                error: errorFunction
 
             });
         }

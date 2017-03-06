@@ -32,8 +32,6 @@ let matchlistBuilder = (function() {
         summonerNameHeader.appendChild(document.createTextNode(summonerName));
         profileStatsContainer.appendChild(summonerNameHeader);
 
-
-
         //Add most played champion header info
         let mostPlayedContainer = document.createElement("div");
         mostPlayedContainer.id = "mostPlayedChamps";
@@ -58,7 +56,16 @@ let matchlistBuilder = (function() {
             addMostPlayedChamps(mostPlayedContainer, champions);
             profileHeaderContainer.appendChild(mostPlayedContainer);
 
+        },
+        //function for how to handle failed api calls. Display erro message.
+        function(XMLHttpRequest, textStatus, errorThrown) {
+            let errorText = document.createElement("h1");
+            errorText.classList.add("errorMessage");
+            errorText.appendChild(document.createTextNode("Stats are not available for this summoner."));
+            profileHeaderContainer.appendChild(errorText);
+            summonerProfileContainer.appendChild(profileHeaderContainer);
         });
+
         summonerProfileContainer.appendChild(profileHeaderContainer);
     }
 
@@ -118,8 +125,16 @@ let matchlistBuilder = (function() {
             for(let i=0; i < gamesArray.length - 1; i++) {
                 matchListContainer.appendChild(createMatch(gamesArray[i]));
             }
+            summonerProfileContainer.appendChild(matchListContainer);
+        },
+        function(XMLHttpRequest, textStatus, errorThrown) {
+            let errorText = document.createElement("h2");
+            errorText.classList.add("errorMessage");
+            errorText.appendChild(document.createTextNode("No matches are available for this summoner."));
+            matchListContainer.appendChild(errorText);
+            summonerProfileContainer.appendChild(matchListContainer);
         });
-        summonerProfileContainer.appendChild(matchListContainer);
+
     }
 
     function createMatch(match) {

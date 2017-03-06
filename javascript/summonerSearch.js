@@ -15,8 +15,8 @@ let summonerSearch = (function() {
 
         let summonerEndpoint = buildSummonerEndpoint(summonerName, region);
 
-        riotHandler.queryRiotApi(summonerEndpoint, function(data) {
 
+        riotHandler.queryRiotApi(summonerEndpoint, function (data) {
             //get the string ready to use with json
             let summonerNameNoSpaces = summonerName.replace(/ /g, "");
             summonerNameNoSpaces = summonerNameNoSpaces.toLocaleLowerCase().trim();
@@ -26,11 +26,18 @@ let summonerSearch = (function() {
 
             let profileBuilder = matchlistBuilder();
             profileBuilder.buildProfile(summonerId, summonerName, region);
+        },
+        //Function to run if an error occurs in the API call
+        function (XMLHttpRequest, textStatus, errorThrown) {
+            resetProfileContainer();
+            let errorText = document.createElement("h1");
+            errorText.classList.add("errorMessage");
+            errorText.appendChild(document.createTextNode(`A summoner with the name ${summonerName} could not be found.`));
+            profileContainer.appendChild(errorText);
         });
     }
 
-
-    //Use the region and summoner name to build a url for the api
+     //Use the region and summoner name to build a url for the api
     function buildSummonerEndpoint(summonerName, region) {
         summonerName = encodeURIComponent(summonerName);
         return `https://${region}.api.pvp.net/api/lol/${region}/v1.4/summoner/by-name/${summonerName}`;
