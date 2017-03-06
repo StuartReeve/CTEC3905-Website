@@ -99,7 +99,9 @@ file as an anonymous function that returns an object with pointers to the functi
 should be available publicly, all other variables and functions are private. More about
 the revealing module pattern can be read [here](https://addyosmani.com/resources/essentialjsdesignpatterns/book/#revealingmodulepatternjavascript).
 
-
+###Testing
+The site has been tested on Desktop using Chrome and Firefox as well as mobile and tablet
+using the Chrome browser for Android.
 
 
 
