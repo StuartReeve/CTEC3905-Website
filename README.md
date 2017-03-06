@@ -38,12 +38,20 @@ used to retrieve information from the API in JSON format. Each endpoint returns
 different information from the API and in most cases will provide IDs which are then 
 used in future API calls, some example endpoints are:
 
-* /api/lol/{region}/v1.4/summoner/by-name/{summonerNames} - Which takes a summoner name
+* __/api/lol/{region}/v1.4/summoner/by-name/{summonerNames}__ - Which takes a summoner name
 and provides information about that summoner. This request returns a summoner ID which 
 can be used to in other calls.
-* /api/lol/{region}/v2.2/match/{matchId} - Which takes a matchId and provides detailed
+* __/api/lol/{region}/v2.2/match/{matchId}__ - Which takes a matchId and provides detailed
 information for that specific match.
 
+#####Making API Calls
+The Riot Games API does not allow requests to be made directly from JavaScript and will
+cause a CORS error if attempted. So I could make calls to the API I wrote a very small
+piece of PHP which makes the actual call to the API and returns the JSON. My JavaScript
+contains a file called riotApiHandler which takes an API endpoint and sends it to the 
+PHP code hosted on my server which adds the API key makes the actual call. This is 
+also the correct way to make API calls according to the Riot Games API as all API keys should be hidden server side so they can not be accessed by the
+public
 
 #####Rate Limiting
 Unfortunately when first signing up to use the API you are provided with a development
