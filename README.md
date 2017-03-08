@@ -84,6 +84,24 @@ displaying recent game information for League of Legends accounts on both mobile
 desktop. The site uses mobile first design and uses CSS breakpoints to provide tailored views
 for mobile, tablet and desktop.
 
+###Development Process
+As part of my development process I asked a number of friends who are familiar with League of
+Legends to try using my site and to provide any feedback they had. From these testing
+session I added a couple of features.
+
+* Previous iterations of the match list didn't include the game mode or any indication of when
+the game was played. This caused the majority of people who tested the site to comment that
+it was unclear on which order to read the matches, vertically or horizontally. From this
+feedback I added how long ago the game was played, which gave a better indiction of what
+order the games were played in.
+* Another piece of feedback I received was it being unclear on what summoner the displayed
+information was for. This feedback was what inspired the summoner header when a search is 
+performed which contains; the searched name, statistics and most played champions.
+
+I found these small testing sessions incredibly useful and as each user was normally using
+a different browser or screen size it also highlighted a number of smaller issues such as 
+elements not displaying on certain screen sizes which I could then go amend.
+
 ###JavaScript
 
 The JavaScript used in the site is all written from scratch and uses some ES6 features and
